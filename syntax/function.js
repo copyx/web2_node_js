@@ -1,0 +1,29 @@
+f123();
+console.log('A');
+console.log('B');
+console.log('C');
+console.log('D');
+console.log('E');
+f123();
+console.log('F');
+console.log('G');
+console.log('H');
+f123();
+console.log('I');
+console.log('J');
+console.log('K');
+console.log('L');
+console.log('M');
+f123();
+console.log('N');
+console.log('O');
+console.log('P');
+console.log('Q');
+console.log('R');
+console.log('S');
+
+function f123() {
+    console.log(1);
+    console.log(2);
+    console.log(3);
+}
