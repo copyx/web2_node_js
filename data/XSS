@@ -1,0 +1,5 @@
+<h1>Sanitizer Test</h1>
+This is test
+<script>
+location.href = 'https://copyx.github.io/'
+</script>
