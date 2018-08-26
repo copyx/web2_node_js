@@ -22,3 +22,59 @@ console.log(gomuClone1);
 console.log(gomuClone2);
 console.log(gomuClone3);
 console.log(gomuClone4);
+
+// 5-2 메소드 상속 및 동작 원리
+// 예제 1
+// function Person(n, a) {
+//   this.name = n;
+//   this.age = a;
+// }
+
+// const gomu = new Person('고무곰', 30);
+const iu = new Person('아이유', 25);
+
+gomu.setOrder = function () {
+  this.age += 1;
+};
+gomu.getAge = function () {
+  return this.age;
+};
+iu.setOrder = function () {
+  this.age += 1;
+};
+iu.getAge = function () {
+  return this.age;
+};
+
+console.log(gomu);
+console.log(iu);
+
+// 예제 2
+// function Person(n, a) {
+//   this.name = n;
+//   this.age = a;
+// }
+Person.prototype.setOlder = function () {
+  this.age += 1;
+};
+Person.prototype.getAge = function () {
+  return this.age;
+};
+
+// 이렇게 해도 함수들이 추가되지만, 객체지향적인 관점으로 바라보면
+// 바람직하지 않은 방향으로 보인다.
+// 이를테면 자식 클래스를 통해 부모 클래스에 멤버를 추가시키는 느낌!
+// gomu.__proto__.setOlder = function () {
+//   this.age += 1;
+// };
+// gomu.__proto__.getAge = function () {
+//   return this.age;
+// };
+
+Person.prototype.age = 100;
+gomu.__proto__.setOlder();
+console.log(gomu.__proto__.getAge());
+// __proto__는 prototype과 같은 객체를 참조하므로 101 출력
+
+gomu.setOlder();
+console.log(gomu.getAge());
