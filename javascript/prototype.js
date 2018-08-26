@@ -78,3 +78,100 @@ console.log(gomu.__proto__.getAge());
 
 gomu.setOlder();
 console.log(gomu.getAge());
+
+// 5-3 prototype chaining
+// Object 생성자의 prototype은 Object만을 위한 메소드를 넣을 수 없음.
+// 이를 상속받는 모든 객체들이 다 사용하기 때문에.
+const arr = [1, 2, 3]; // -> Array -> Object
+
+// instance의 toString 에 직접 메소드 설정
+arr.toString = function () {
+  return this.join('_');
+};
+
+console.log(arr.toString()); // 1_2_3
+console.log(arr.__proto__.toString.call(arr)); // 1,2,3
+console.log(arr.__proto__.__proto__.toString.call(arr)); // [object Array]
+
+// Array 생성자를 통해 모든 Array 객체에 적용
+const arr2 = [1, 2, 3]; // -> Array -> Object
+
+Array.prototype.toString = function () {
+  return '[' + this.join(', ') + ']';
+};
+
+console.log(arr2.toString()); // [1, 2, 3]
+console.log(arr2.__proto__.toString.call(arr)); // [1, 2, 3]
+console.log(arr2.__proto__.__proto__.toString.call(arr)); // [object Array]
+
+// Array 생성자의 prototype을 통해 toString을 다시 설정해도
+// 객체에 직접 toString을 설정한 것의 우선순위가 더 높아서 그것으로 나옴.
+
+console.log(arr.toString()); // 1_2_3
+console.log(arr.__proto__.toString.call(arr)); // [1, 2, 3]
+console.log(arr.__proto__.__proto__.toString.call(arr)); // [object Array]
+
+// 예제 1
+// Object의 toString
+const obj = {
+  a: 1,
+  b: {
+    c: 'c',
+  },
+};
+
+console.log(obj.toString());
+
+// Instance에 추가한 toString
+// 본인은 적용되지만, 다른 객체에는 적용 안됨.
+const obj1 = {
+  a: 1,
+  b: {
+    c: 'c',
+  },
+  toString: function () {
+    const res = [];
+    for (let key in this) {
+      res.push(key + ': ' + this[key].toString());
+    }
+    return '{' + res.join(', ') + '}';
+  },
+};
+
+console.log(obj1.toString());
+
+// Object 생성자의 prototype에 toString 추가
+// 다른 모든 객체들에 적용됨
+const obj2 = {
+  a: 1,
+  b: {
+    c: 'c',
+  },
+};
+
+
+Object.prototype.toString = function () {
+  const res = [];
+  for (let key in this) {
+    res.push(key + ': ' + this[key].toString());
+  }
+  return '{' + res.join(', ') + '}';
+};
+
+console.log(obj2.toString());
+
+// 배열까지 추가
+const obj3 = {
+  a: 1,
+  b: {
+    c: 'c',
+  },
+  d: [5, 6, 7],
+  e: function () {},
+};
+
+Array.prototype.toString = function () {
+  return `[${this.join(', ')}]`;
+};
+
+console.log(obj3.toString());
